@@ -79,10 +79,14 @@ class GenreTest extends TestCase
     }
 
     public function testDelete()
-    {   
-        $genre = factory(Genre::class,1)->create();
-        $this->assertNull($genre->first()->deleted_at);
-        $genre->first()->delete($genre);
-        $this->assertSoftDeleted($genre->first());
+    {
+        $genre = factory(Genre::class)->create();
+        $this->assertNull($genre->deleted_at);
+        
+        $genre->delete();
+        $this->assertSoftDeleted($genre);
+        
+        $genre->restore();
+        $this->assertNotNull(Genre::find($genre->id));
     }
 }

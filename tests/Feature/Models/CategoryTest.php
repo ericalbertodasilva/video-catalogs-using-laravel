@@ -94,9 +94,13 @@ class CategoryTest extends TestCase
 
     public function testDelete()
     {   
-        $category = factory(Category::class,1)->create();
-        $this->assertNull($category->first()->deleted_at);
-        $category->first()->delete($category);
-        $this->assertSoftDeleted($category->first());
+        $category = factory(Category::class)->create();
+        $this->assertNull($category->deleted_at);
+        
+        $category->delete();
+        $this->assertSoftDeleted($category);
+
+        $category->restore();
+        $this->assertNotNull(Category::find($category->id));
     }
 }
