@@ -4,11 +4,7 @@ namespace Tests\Feature\Models;
 
 use App\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-
-use function PHPSTORM_META\map;
 
 class CategoryTest extends TestCase
 {
@@ -94,7 +90,13 @@ class CategoryTest extends TestCase
             $this->assertEquals($value, $category->{$key});
         }
 
-
     }
 
+    public function testDelete()
+    {   
+        $category = factory(Category::class,1)->create();
+        $this->assertNull($category->first()->deleted_at);
+        $category->first()->delete($category);
+        $this->assertSoftDeleted($category->first());
+    }
 }
