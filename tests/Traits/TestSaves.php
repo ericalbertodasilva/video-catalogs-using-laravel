@@ -6,6 +6,10 @@ use Illuminate\Foundation\Testing\TestResponse;
 
 trait TestSaves
 {
+    protected abstract function model();
+    protected abstract function routeStore();
+    protected abstract function routeUpdate();
+
     protected function assertStore($sendData, $testDatabase, $testJsonData = null)
     {
         $response = $this->json('POST', $this-> routeStore(), $sendData);
